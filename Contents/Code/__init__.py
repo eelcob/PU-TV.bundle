@@ -21,16 +21,9 @@ def Start():
 	HTTP.CacheTime = CACHE_1HOUR
 	HTTP.Headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:13.0) Gecko/20100101 Firefox/13.0.1"
 
-####################################################################################################
-def MainMenu():
-	oc = ObjectContainer()
-
-	oc.add(DirectoryObject(key = Callback(getVideos), title=L('Videos')))
-	
-	return oc
 
 ####################################################################################################
-def getVideos(page=0):
+def MainMenu(page=0):
 	oc = ObjectContainer()
 	
 	pagestr=str(page)
@@ -45,8 +38,6 @@ def getVideos(page=0):
 		except:
 			clip_desc	= ""
 	
-		Log.Debug(clip_desc)
-
 		oc.add(VideoClipObject(
 			url = clip_link,
 			title = clip_title,
@@ -59,6 +50,6 @@ def getVideos(page=0):
 		
 	else:
 		if len(clip.xpath('//li[@class="pager-next"]')) > 0:
-			oc.add(DirectoryObject(key=Callback(getVideos, page=page+1), title=L('More'), thumb=R(ICON_MORE)))
+			oc.add(DirectoryObject(key=Callback(MainMenu, page=page+1), title=L('More'), thumb=R(ICON_MORE)))
 	
 	return oc
