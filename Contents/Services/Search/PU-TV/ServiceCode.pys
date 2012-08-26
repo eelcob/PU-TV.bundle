@@ -1,0 +1,23 @@
+BASEURL = "http://www.pu.nl"
+FILTER  = "?f[0]=im_field_categories%3A3"
+SEARCH_URL = BASEURL + "/search/site/%s"
+
+ART = 'art-default.jpg'
+ICON = 'icon-default.png'
+
+####################################################################################################
+def Search(query):
+
+	oc = ObjectContainer(title1="Search", art=R(ART))
+	url = SEARCH_URL % query.replace(" ", "%20") + FILTER
+	
+	for result in HTML.ElementFromURL(url).xpath('//li[@class="search-result"]'):
+		title = result.xpath('.//h3/a')[0].text
+		link = result.xpath('.//h3/a')[0].get('href')
+
+		oc.add(VideoClipObject(
+			url = link,
+			title = title
+		))
+
+	return oc

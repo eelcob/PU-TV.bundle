@@ -1,11 +1,11 @@
 ART 			= "art-default.jpg"
 ICON 			= "icon-default.png"
 ICON_MORE		= "icon-more.png"
+ICON_SEARCH		= "icon-search.png"
 NAME 			= L("Title")
 
 BASEURL = "http://www.pu.nl"
 PUTVURL = BASEURL + "/pu-tv"
-
 ####################################################################################################
 def Start():
 
@@ -48,7 +48,8 @@ def MainMenu(page=0):
 		return ObjectContainer(header = L('NoVideo'), message = L('NoVideo'))
 
 	else:
+		oc.add(SearchDirectoryObject(identifier="com.plexapp.plugins.putv", title = L('Search'), prompt = L('Search'), thumb = R(ICON_SEARCH)))
 		if len(clip.xpath('//li[@class="pager-next"]')) > 0:
 			oc.add(DirectoryObject(key=Callback(MainMenu, page=page+1), title=L('More'), thumb=R(ICON_MORE)))
-
+		
 	return oc
